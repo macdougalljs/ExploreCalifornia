@@ -4,5 +4,24 @@
 @{
 }
 
-<h1>Explore our world your way</h1>
-            <a href="/tours.htm" title="Find your tour!"><h2>Find your tour</h2></a>
+<p>Below are a few of the latest posts from some of our explorers.</p>
+
+<div class="blog-posts">
+    @foreach (var post in Model)
+    {
+        <article class="blog-post">
+            <h1>
+                @Html.ActionLink((string)post.Title, "Post", "Blog",
+                new { year = post.Posted.Year, month = post.Posted.Month, key = post.Key }
+                )
+            </h1>
+            <div class="details">
+                Posted <span>@post.Posted</span> by <span>@post.Author</span>
+            </div>
+            <div class="content">
+                @post.Body
+            </div>
+        </article>
+    }
+
+</div>
