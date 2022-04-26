@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ExploreCalifornia.Models.Post
+@{
+    Layout = "_Layout";
+}
+
+<h1>Create Blog Post</h1>
+<fieldset>
+   @using (Html.BeginForm())
+   {
+       <p>
+           @Html.LabelFor(x => x.Title)
+           @Html.EditorFor(x => x.Body)
+       </p>
+       <p>
+           @Html.LabelFor(x => x.Body)
+           @Html.TextAreaFor(x => x.Body)
+       </p>
+       <p>
+           <button type="submit">Create Post</button>
+       </p>
+   }
+
+</fieldset>
