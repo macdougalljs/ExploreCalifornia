@@ -1,8 +1,10 @@
+using ExploreCalifornia.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,13 @@ namespace ExploreCalifornia
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<FeatureToggles>(x => new FeatureToggles { DeveloperExceptions = configuration.GetValue<bool>("FeatureToggles:EnableDeveloperExceptions") });
+
+            // this builds up DBContext options object, that EF that needs to give data context
+            services.AddDbContext<BlogDataContext>(options =>
+            {
+                var connectionString = configuration.GetConnectionString("BlogDataContext");
+                options.UseSqlServer(connectionString);
+            });
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
            

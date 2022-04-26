@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 @model ExploreCalifornia.Models.Post
 @{
     Layout = "_Layout";
@@ -8,19 +9,25 @@
 
 <h1>Create Blog Post</h1>
 <fieldset>
-   @using (Html.BeginForm())
-   {
-       <p>
-           @Html.LabelFor(x => x.Title)
-           @Html.EditorFor(x => x.Body)
-       </p>
-       <p>
-           @Html.LabelFor(x => x.Body)
-           @Html.TextAreaFor(x => x.Body)
-       </p>
-       <p>
-           <button type="submit">Create Post</button>
-       </p>
-   }
+
+
+    <form asp-action="Create" asp-controller="Blog">
+
+        <div asp-validation-summary="All" class="input-validation-error"></div>
+        <p>
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" placeholder="Blog post title" />
+            <span asp-validation-for="Title"></span>
+           
+        </p>
+        <p>
+            <label asp-for="Body"></label>
+            <textarea asp-for="Body" class="form-control" placeholder="Blog post content"></textarea>
+            <span asp-validation-for="Body"></span>
+        </p>
+        <p>
+            <button type="submit">Create Post</button>
+        </p>
+    </form>
 
 </fieldset>
