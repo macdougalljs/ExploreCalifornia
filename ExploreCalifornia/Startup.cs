@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExploreCalifornia
 {
@@ -29,10 +30,23 @@ namespace ExploreCalifornia
 
             // this builds up DBContext options object, that EF that needs to give data context
             services.AddDbContext<BlogDataContext>(options =>
-            {
+            { 
                 var connectionString = configuration.GetConnectionString("BlogDataContext");
                 options.UseSqlServer(connectionString);
             });
+
+
+            services.AddDbContext<IdentityDataContext>(options =>
+            {
+                var connectionString = configuration.GetConnectionString("IdentityDataContext");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDataContext>();
+
+            // store the information in a database with entity framework 
+
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddTransient<FormattingService>();  // our own customized data formatting tag helper
@@ -56,6 +70,8 @@ namespace ExploreCalifornia
                     throw new Exception("ERROR!");
                 await next();
             });
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
